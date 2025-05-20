@@ -20,4 +20,10 @@ urlpatterns = [
     
     # Social authentication
     path('api/auth/social/', include('allauth.socialaccount.urls')),
+
+    # Users and Friends API
+    path('api/', include('users.urls')),
+
+    # Chat endpoints
+    path('api/', include('chat.urls')),
 ]
