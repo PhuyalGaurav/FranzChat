@@ -5,6 +5,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -14,16 +16,19 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     
-    # dj-rest-auth endpoints
-    path('api/auth/', include('dj_rest_auth.urls')),
-    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),
+    # Custom auth endpoints
+    path('api/auth/', include('users.auth_urls')),
     
     # Social authentication
     path('api/auth/social/', include('allauth.socialaccount.urls')),
 
     # Users and Friends API
-    path('api/', include('users.urls')),
+    path('api/user/', include('users.urls')),
 
     # Chat endpoints
     path('api/', include('chat.urls')),
+    path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # Optional UI:
+    path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
+    path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 ]

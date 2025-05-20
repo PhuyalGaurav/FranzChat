@@ -1,5 +1,5 @@
 from django.db import models
-from user.models import User
+from users.models import CustomUser as User
 
 class Chat(models.Model):
     creator_user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -66,7 +66,11 @@ class Chat(models.Model):
 
 class Message(models.Model):
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    chat = models.ForeignKey(
+        Chat,
+        on_delete=models.CASCADE,
+        related_name='messages'
+    )
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)

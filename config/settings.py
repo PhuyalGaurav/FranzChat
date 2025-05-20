@@ -40,8 +40,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'channels',
     'rest_framework_simplejwt',
-    'dj_rest_auth',
-    'dj_rest_auth.registration',
+    'drf_spectacular',
 ]
 
 ASGI_APPLICATION = 'config.asgi.application'
@@ -50,6 +49,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 CHANNEL_LAYERS = {
@@ -81,6 +81,13 @@ AUTHENTICATION_BACKENDS = [
 ]
 ROOT_URLCONF = 'config.urls'
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Franzchat',
+    'DESCRIPTION': 'A chat application',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -103,14 +110,6 @@ STATIC_URL = '/static/'
 
 DATABASES = {
 'default': dj_database_url.config(default=os.environ.get('db_url'))
-}
-
-REST_AUTH = {
-    'USE_JWT': True,
-    'JWT_AUTH_COOKIE': 'auth',
-    'JWT_AUTH_REFRESH_COOKIE': 'refresh-token',
-    'JWT_AUTH_SECURE': False, 
-    'SESSION_LOGIN': False,
 }
 
 SIMPLE_JWT = {
@@ -136,19 +135,6 @@ SIMPLE_JWT = {
 
     'JTI_CLAIM': 'jti',
 }
-
-REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'jwt-auth'
-JWT_AUTH_REFRESH_COOKIE = 'jwt-refresh-auth'
-
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_UNIQUE_EMAIL = True
-ACCOUNT_EMAIL_VERIFICATION = 'none'  
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-ACCOUNT_LOGIN_METHODS = {'username', 'email'}
-ACCOUNT_SIGNUP_FIELDS = ['email*', 'username', 'password1*', 'password2*']
 
 AUTH_PASSWORD_VALIDATORS = [
     {
